@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wechatdemo.R;
-
+/**
+ * 发现页
+ */
 public class FindFragment extends Fragment {
 
     @Override

@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
-//    public List<Conn> connList=new ArrayList<>();
     private Fragment[] fragments={
         new HomeFragment(),
         new ConnFragment(),
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(myFragmentPagerAdapter);
+        //监听页面更改
         ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+        //监听底部点按选择
         BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

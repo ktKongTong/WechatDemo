@@ -20,7 +20,9 @@ import com.example.wechatdemo.bean.News;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 消息首页
+ */
 public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;

@@ -4,21 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.wechatdemo.MainActivity;
 import com.example.wechatdemo.adapter.ConnRecyclerViewAdapter;
 import com.example.wechatdemo.bean.Conn;
 import com.example.wechatdemo.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 联系人首页
+ */
 public class ConnFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;

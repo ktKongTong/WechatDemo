@@ -2,11 +2,9 @@ package com.example.wechatdemo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.wechatdemo.ConnDetailActivity;
-import com.example.wechatdemo.MainActivity;
 import com.example.wechatdemo.bean.Conn;
 import com.example.wechatdemo.R;
 
