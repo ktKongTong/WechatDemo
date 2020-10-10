@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private Fragment[] fragments={
-        new HomeFragment(),
-        new ConnFragment(),
-        new FindFragment(),
-        new MeFragment()
+            new HomeFragment(),
+            new ConnFragment(),
+            new FindFragment(),
+            new MeFragment()
     };
 
 
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
