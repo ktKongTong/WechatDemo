@@ -43,27 +43,8 @@ public class ConnFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
-        final ConnRecyclerViewAdapter connRecyclerViewAdapter = new ConnRecyclerViewAdapter(connList,getActivity());
+        ConnRecyclerViewAdapter connRecyclerViewAdapter = new ConnRecyclerViewAdapter(connList,getActivity());
         recyclerView.setAdapter(connRecyclerViewAdapter);
-        connRecyclerViewAdapter.setOnItemClickListener(new ConnRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemLongClick(View view, final int pos) {
-                PopupMenu popupMenu = new PopupMenu(view.getContext(),view);
-                popupMenu.getMenuInflater().inflate(R.menu.menu3,popupMenu.getMenu());
-                //弹出式菜单的菜单项点击事件
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.delete) {
-                            connList.remove(pos);
-                            connRecyclerViewAdapter.notifyItemRemoved(pos);
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
+
     }
 }

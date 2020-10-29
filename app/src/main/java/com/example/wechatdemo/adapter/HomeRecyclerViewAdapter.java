@@ -2,6 +2,7 @@ package com.example.wechatdemo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.wechatdemo.R;
 import com.example.wechatdemo.SendMessageActivity;
 import com.example.wechatdemo.bean.News;
+
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         News news = this.newsList.get(position);
         Glide.with(context)
                 .load(news.getReceiver().getAvatar())
@@ -49,6 +52,21 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 view.getContext().startActivity(intent);
             }
         });
+        if(news.isTop()){
+//            holder.newsTime.setVisibility(View.INVISIBLE);
+            holder.homeItemView.setBackgroundColor(Color.GRAY);
+        }else{
+            holder.homeItemView.setBackgroundColor(Color.WHITE);
+        }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(view.getContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
+                onItemClickListener.onItemLongClick(holder.itemView,position);
+                return false;
+            }
+        });
     }
 
 
@@ -60,11 +78,26 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView newsAvatar;
         TextView newsName;
+        TextView newsTime;
+        View homeItemView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             newsAvatar = (ImageView) itemView.findViewById(R.id.news_avatar);
             newsName = (TextView) itemView.findViewById(R.id.news_name);
+            newsTime = itemView.findViewById(R.id.news_time);
+            homeItemView = itemView.findViewById(R.id.home_item);
+
         }
     }
+
+    private OnItemClickListener onItemClickListener;
+    public interface OnItemClickListener{
+        void onItemLongClick(View view, int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
 
 }

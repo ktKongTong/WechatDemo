@@ -45,21 +45,12 @@ public class ConnRecyclerViewAdapter extends RecyclerView.Adapter<ConnRecyclerVi
                 .load(conn.getAvatar())
                 .into(holder.connAvatar);
         holder.connName.setText(conn.getName());
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(context,connList.get(position).name,Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(view.getContext(), ConnDetailActivity.class);
-//                view.getContext().startActivity(intent);
-//            }
-//        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                Log.d("LONG","LONGCLICKTEST");
-                Toast.makeText(view.getContext(),"test",Toast.LENGTH_SHORT).show();
-                onItemClickListener.onItemLongClick(holder.itemView,position);
-                return false;
+            public void onClick(View view) {
+                Toast.makeText(context,connList.get(position).name,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), ConnDetailActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -78,12 +69,5 @@ public class ConnRecyclerViewAdapter extends RecyclerView.Adapter<ConnRecyclerVi
             connName = (TextView) itemView.findViewById(R.id.conn_name);
         }
     }
-    private OnItemClickListener onItemClickListener;
-    public interface OnItemClickListener{
-        void onItemLongClick(View view , int pos);
-    }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
 }
