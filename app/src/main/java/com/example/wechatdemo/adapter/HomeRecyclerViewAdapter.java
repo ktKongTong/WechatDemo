@@ -43,6 +43,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         Glide.with(context)
                 .load(news.getReceiver().getAvatar())
                 .into(holder.newsAvatar);
+        holder.newsTime.setText(news.getNewsTime().toString());
         holder.newsName.setText(news.getReceiver().getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,13 +53,24 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 view.getContext().startActivity(intent);
             }
         });
+        // 是否置顶，更改背景颜色
         if(news.isTop()){
-//            holder.newsTime.setVisibility(View.INVISIBLE);
-            holder.homeItemView.setBackgroundColor(Color.GRAY);
+            holder.newsItem.setBackgroundColor(Color.GRAY);
         }else{
-            holder.homeItemView.setBackgroundColor(Color.WHITE);
+            holder.newsItem.setBackgroundColor(Color.WHITE);
         }
-
+        // 是否已读，小红点
+        if(news.isNews()){
+            holder.newsDot.setVisibility(View.VISIBLE);
+        }else{
+            holder.newsDot.setVisibility(View.INVISIBLE);
+        }
+        // 是否免打扰,免打扰图标
+        if(news.isDisturb()){
+            holder.newsNoDisturb.setVisibility(View.VISIBLE);
+        }else{
+            holder.newsNoDisturb.setVisibility(View.INVISIBLE);
+        }
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -79,14 +91,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         ImageView newsAvatar;
         TextView newsName;
         TextView newsTime;
-        View homeItemView;
+        View newsItem;
+        ImageView newsDot;
+        ImageView newsNoDisturb;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            newsAvatar = (ImageView) itemView.findViewById(R.id.news_avatar);
-            newsName = (TextView) itemView.findViewById(R.id.news_name);
+            newsAvatar = itemView.findViewById(R.id.news_avatar);
+            newsName = itemView.findViewById(R.id.news_name);
             newsTime = itemView.findViewById(R.id.news_time);
-            homeItemView = itemView.findViewById(R.id.home_item);
-
+            newsItem = itemView.findViewById(R.id.home_item);
+            newsDot = itemView.findViewById(R.id.news_dot);
+            newsNoDisturb = itemView.findViewById(R.id.news_no_disturb);
         }
     }
 

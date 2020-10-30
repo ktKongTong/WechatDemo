@@ -12,63 +12,36 @@ public class News {
     public static void setTopCount(int topCount) {
         News.topCount = topCount;
     }
-
+    public News(Conn sender,Conn receiver,Date newsTime){
+        this.setSender(sender);
+        this.setReceiver(receiver);
+        this.setTop(false);
+        this.setNews(false);
+        this.setDisturb(false);
+        this.setNewsTime(newsTime);
+    }
+    public News(Conn sender,Conn receiver,Date newsTime,boolean isDisturb){
+        this.setSender(sender);
+        this.setReceiver(receiver);
+        this.setTop(false);
+        this.setNews(false);
+        this.setDisturb(isDisturb);
+        this.setNewsTime(newsTime);
+    }
     // 消息id
     private String newsId;
     // 发送者
     private Conn sender;
     // 接收者
     private Conn receiver;
-    //队伍中序列
-    private int sequence;
     //是否未读
     private boolean isNews;
     //是否置顶
     private boolean isTop;
     //是否免打扰
-
+    private boolean isDisturb;
     // 最后通信时间
     private Date newsTime;
-
-    public Date getNewsTime() {
-        return newsTime;
-    }
-
-    public void setNewsTime(Date newsTime) {
-        this.newsTime = newsTime;
-    }
-
-    public News (Conn sender, Conn receiver, int sequence){
-        this.sender=sender;
-        this.receiver=receiver;
-        this.setTop(false);
-        this.setNews(false);
-        this.setSequence(sequence);
-    }
-
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
-    }
-
-    public boolean isNews() {
-        return isNews;
-    }
-
-    public void setNews(boolean news) {
-        isNews = news;
-    }
-
-    public boolean isTop() {
-        return isTop;
-    }
-
-    public void setTop(boolean top) {
-        isTop = top;
-    }
 
     public String getNewsId() {
         return newsId;
@@ -92,5 +65,37 @@ public class News {
 
     public void setReceiver(Conn receiver) {
         this.receiver = receiver;
+    }
+
+    public boolean isNews() {
+        return isNews;
+    }
+
+    public void setNews(boolean news) {
+        isNews = news;
+    }
+
+    public boolean isTop() {
+        return isTop;
+    }
+
+    public void setTop(boolean top) {
+        isTop = top;
+    }
+
+    public boolean isDisturb() {
+        return isDisturb;
+    }
+
+    public void setDisturb(boolean disturb) {
+        isDisturb = disturb;
+    }
+
+    public Date getNewsTime() {
+        return newsTime;
+    }
+
+    public void setNewsTime(Date newsTime) {
+        this.newsTime = newsTime;
     }
 }

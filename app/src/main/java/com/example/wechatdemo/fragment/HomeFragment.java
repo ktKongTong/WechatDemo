@@ -23,6 +23,7 @@ import com.example.wechatdemo.bean.Conn;
 import com.example.wechatdemo.bean.News;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,10 +46,10 @@ public class HomeFragment extends Fragment {
         Conn conn2 = new Conn("name2eeeeeeeeeeeeee","https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3072531546,2743940875&fm=26&gp=0.jpg");
         Conn conn3 = new Conn("name3eeeeeeeeeeeeee","https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3072531546,2743940875&fm=26&gp=0.jpg");
         Conn conn4 = new Conn("name4eeeeeeeeeeeeee","https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3072531546,2743940875&fm=26&gp=0.jpg");
-        News news1 =new News(conn1,conn1,1);
-        News news2 =new News(conn2,conn2,2);
-        News news3 =new News(conn3,conn3,3);
-        News news4 =new News(conn4,conn4,4);
+        News news1 =new News(conn1,conn1, new Date(),true);
+        News news2 =new News(conn2,conn2,new Date());
+        News news3 =new News(conn3,conn3,new Date(),true);
+        News news4 =new News(conn4,conn4,new Date());
         newsList.add(news1);
         newsList.add(news2);
         newsList.add(news3);
@@ -63,44 +64,75 @@ public class HomeFragment extends Fragment {
         homeRecyclerViewAdapter.setOnItemClickListener(new HomeRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemLongClick(final View view, final int pos) {
+
                 PopupMenu popupMenu = new PopupMenu(view.getContext(),view);
                 popupMenu.getMenuInflater().inflate(R.menu.menu3,popupMenu.getMenu());
-                //弹出式菜单的菜单项点击事件
+                News news = newsList.get(pos);
+                if(news.isTop()){
+                    popupMenu.getMenu().getItem(1).setVisible(false);
+                    popupMenu.getMenu().getItem(2).setVisible(true);
+                }else {
+                    popupMenu.getMenu().getItem(1).setVisible(true);
+                    popupMenu.getMenu().getItem(2).setVisible(false);
+                }
+                if(news.isNews()){
+                    popupMenu.getMenu().getItem(3).setVisible(false);
+                    popupMenu.getMenu().getItem(4).setVisible(true);
+                }else {
+                    popupMenu.getMenu().getItem(3).setVisible(true);
+                    popupMenu.getMenu().getItem(4).setVisible(false);
+                }
+
+                //PopupMenu点击事件
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.delete) {
-                            newsList.remove(pos);
-                            homeRecyclerViewAdapter.notifyItemRangeChanged(pos,newsList.size()-pos);
-                        }
-                        if(item.getItemId()==R.id.to_top) {
-                            News news = newsList.get(pos);
-                            News.setTopCount(News.getTopCount()+1);
-                            news.setTop(true);
-                            newsList.remove(pos);
-                            newsList.add(0,news);
-                            homeRecyclerViewAdapter.notifyItemRangeChanged(0,pos+1);
-                        }
-                        if(item.getItemId()==R.id.cancel_to_top) {
-                            News news = newsList.get(pos);
-                            news.setTop(false);
-                            newsList.remove(pos);
-                            News.setTopCount(News.getTopCount()-1);
-                            int i = News.getTopCount();
-                            while (i>=0){
-                                // 没有置顶的为0项
-                                if(newsList.size()-i==0){
-                                    newsList.add(i,news);
-                                    break;
-                                }
-                                if(newsList.get(i).getNewsTime().before(news.getNewsTime())){
-                                    newsList.add(i,news);
-                                    break;
-                                }
-                                i++;
-                            }
-                            homeRecyclerViewAdapter.notifyItemRangeChanged(pos,i-pos+1);
 
+                        switch(item.getItemId()){
+                            case R.id.delete:
+                                newsList.remove(pos);
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,newsList.size()-pos);
+                                break;
+                            case R.id.to_top:
+                                News topNews = newsList.get(pos);
+                                News.setTopCount(News.getTopCount()+1);
+                                topNews.setTop(true);
+                                newsList.remove(pos);
+                                newsList.add(0,topNews);
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(0,pos+1);
+                                break;
+                            case R.id.cancel_to_top:
+                                News cancelTopNews = newsList.get(pos);
+                                cancelTopNews.setTop(false);
+                                newsList.remove(pos);
+                                News.setTopCount(News.getTopCount()-1);
+                                int i = News.getTopCount();
+                                while (i>=0){
+                                    // 没有置顶的为0项
+                                    if(newsList.size()-i==0){
+                                        newsList.add(i,cancelTopNews);
+                                        break;
+                                    }
+                                    if(newsList.get(i).getNewsTime().before(cancelTopNews.getNewsTime())){
+                                        newsList.add(i,cancelTopNews);
+                                        break;
+                                    }
+                                    i++;
+                                }
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,i-pos+1);
+                                break;
+                            case R.id.sign_read:
+                                News signReadNews = newsList.get(pos);
+                                signReadNews.setNews(false);
+                                newsList.set(pos,signReadNews);
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,1);
+                                break;
+                            case R.id.sign_unread:
+                                News signUnreadNews = newsList.get(pos);
+                                signUnreadNews.setNews(true);
+                                newsList.set(pos,signUnreadNews);
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,1);
+                                break;
                         }
                         return false;
                     }
