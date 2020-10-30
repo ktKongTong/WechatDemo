@@ -21,11 +21,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<News> newsList = new ArrayList<>();
+    private List<News> newsList;
     private Context context;
+    private OnItemClickListener onItemClickListener;
+
     public HomeRecyclerViewAdapter(List<News> newsList,Context context){
         this.newsList=newsList;
         this.context = context;
+    }
+//    点击/长按监听接口
+    public interface OnItemClickListener{
+        void onItemLongClick(View view, int pos);
+        void onItemClick(View view, int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
 
@@ -43,16 +54,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         Glide.with(context)
                 .load(news.getReceiver().getAvatar())
                 .into(holder.newsAvatar);
-        holder.newsTime.setText(news.getNewsTime().toString());
+        holder.newsTime.setText(String.valueOf(news.getNewsTime().getTime()));
         holder.newsName.setText(news.getReceiver().getName());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,"SendTo:"+newsList.get(position).getReceiver().name,Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(view.getContext(), SendMessageActivity.class);
-                view.getContext().startActivity(intent);
-            }
-        });
+        holder.newsContent.setText(news.getNewsContent());
         // 是否置顶，更改背景颜色
         if(news.isTop()){
             holder.newsItem.setBackgroundColor(Color.GRAY);
@@ -71,16 +75,22 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }else{
             holder.newsNoDisturb.setVisibility(View.INVISIBLE);
         }
+        // 监听单击事件
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClick(holder.itemView,position);
+            }
+        });
+        // 监听长按事件
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(view.getContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
                 onItemClickListener.onItemLongClick(holder.itemView,position);
                 return false;
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -88,31 +98,26 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView newsAvatar;
+        View newsItem;
         TextView newsName;
         TextView newsTime;
-        View newsItem;
+        TextView newsContent;
+        ImageView newsAvatar;
         ImageView newsDot;
         ImageView newsNoDisturb;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            newsAvatar = itemView.findViewById(R.id.news_avatar);
+            newsItem = itemView.findViewById(R.id.home_item);
             newsName = itemView.findViewById(R.id.news_name);
             newsTime = itemView.findViewById(R.id.news_time);
-            newsItem = itemView.findViewById(R.id.home_item);
+            newsContent = itemView.findViewById(R.id.news_content);
+            newsAvatar = itemView.findViewById(R.id.news_avatar);
             newsDot = itemView.findViewById(R.id.news_dot);
             newsNoDisturb = itemView.findViewById(R.id.news_no_disturb);
         }
     }
 
-    private OnItemClickListener onItemClickListener;
-    public interface OnItemClickListener{
-        void onItemLongClick(View view, int pos);
-    }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
 
 
 }

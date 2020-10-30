@@ -5,7 +5,6 @@
         android:id="@+id/delete"
         android:icon="@mipmap/ic_launcher"
         android:title="删除"/>
-
     <item
         android:id="@+id/to_top"
         android:icon="@mipmap/ic_launcher"
@@ -14,13 +13,10 @@
         android:id="@+id/cancel_to_top"
         android:icon="@mipmap/ic_launcher"
         android:title="取消置顶"/>
-
     <item
         android:id="@+id/sign_unread"
         android:icon="@mipmap/ic_launcher"
         android:title="标为未读"/>
-
-
     <item
         android:id="@+id/sign_read"
         android:icon="@mipmap/ic_launcher"

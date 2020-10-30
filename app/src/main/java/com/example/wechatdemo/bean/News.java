@@ -1,10 +1,11 @@
 package com.example.wechatdemo.bean;
 
 import java.util.Date;
+import java.util.Random;
 
 public class News {
     private static int topCount = 0;
-
+    private Random random= new Random();
     public static int getTopCount() {
         return topCount;
     }
@@ -27,6 +28,7 @@ public class News {
         this.setNews(false);
         this.setDisturb(isDisturb);
         this.setNewsTime(newsTime);
+        this.setNewsContent(String.valueOf(random.nextInt(10)));
     }
     // 消息id
     private String newsId;
@@ -42,7 +44,8 @@ public class News {
     private boolean isDisturb;
     // 最后通信时间
     private Date newsTime;
-
+    //最后通信内容
+    private String newsContent;
     public String getNewsId() {
         return newsId;
     }
@@ -97,5 +100,13 @@ public class News {
 
     public void setNewsTime(Date newsTime) {
         this.newsTime = newsTime;
+    }
+
+    public String getNewsContent() {
+        return newsContent;
+    }
+
+    public void setNewsContent(String newsContent) {
+        this.newsContent = newsContent;
     }
 }
