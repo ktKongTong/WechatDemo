@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
                         switch(item.getItemId()){
                             case R.id.delete:
                                 newsList.remove(pos);
-                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,newsList.size()-pos);
+                                homeRecyclerViewAdapter.notifyItemRangeChanged(pos,newsList.size()-pos+1);
                                 Toast.makeText(view.getContext(),"WeChat:delete",Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.to_top:
